@@ -76,6 +76,26 @@
                 </adminbookmarks>
             </updates>
         </layout>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <adminbookmarks translate="title" module="addedbytesadminbookmarks">
+                                            <title>Added Bytes Admin Bookmarks</title>
+                                            <sort_order>0</sort_order>
+                                        </adminbookmarks>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
     </adminhtml>
     <default>
         <adminbookmarks>

@@ -13,6 +13,7 @@ CREATE TABLE `" . $bookmark_table . "` (
   `bookmark_name` varchar(50) NOT NULL,
   `bookmark_url` varchar(500) NOT NULL,
   `bookmark_route` varchar(200) NOT NULL,
+  `bookmark_item_id` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
   `is_active` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL COMMENT 'Creation Time',

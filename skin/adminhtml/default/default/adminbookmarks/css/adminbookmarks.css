@@ -1,0 +1,16 @@
+#adminbookmarks {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #333;
+    line-height: 30px;
+    z-index: 200;
+    color: #fff;
+}
+#adminbookmarks_wrapper {
+    padding: 0 28px;
+}
+#adminbookmarks_credits {
+    float: right;
+}

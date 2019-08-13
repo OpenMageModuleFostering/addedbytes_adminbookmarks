@@ -21,8 +21,16 @@ class Addedbytes_Adminbookmarks_Adminhtml_AdminbookmarkController extends Mage_A
         // Extract variables from POST
         $bookmarkTitle = $_POST['title'];
         $bookmarkUrl = $_POST['url'];
+        $bookmarkItemId = $_POST['item_id'];
         $bookmarkController = $_POST['controller'];
         $bookmarkAction = $_POST['action'];
+        $bookmarkRoute = $bookmarkController . '/' . $bookmarkAction;
+
+        // Bookmark URLs for the categories are special. Build them dynamically.
+        if ($bookmarkRoute == 'catalog_category/edit') {
+            $bookmarkRoute = 'catalog_category/index';
+            $bookmarkUrl = Mage::helper('adminhtml')->getUrl('adminhtml/catalog_category/index', array('id' => $bookmarkItemId, 'clear' => 1));
+        }
 
         // Validate
         if (trim($bookmarkTitle) == '') {
@@ -45,15 +53,26 @@ class Addedbytes_Adminbookmarks_Adminhtml_AdminbookmarkController extends Mage_A
 
         // If no errors, add the bookmark
         if ($result['success']) {
+            // Save bookmark
             $bookmark = Mage::getModel('addedbytesadminbookmarks/bookmark');
             $bookmark->setBookmarkName($bookmarkTitle)
                 ->setBookmarkUrl($bookmarkUrl)
-                ->setBookmarkRoute($bookmarkController . '/' . $bookmarkAction)
+                ->setBookmarkRoute($bookmarkRoute)
                 ->setUserId(Mage::getSingleton('admin/session')->getUser()->getUserId())
                 ->setCreatedAt(Varien_Date::now())
                 ->setIsActive(1);
             $bookmark->save();
-            $result['bookmark_html'] = '<span id="bookmark' . $bookmark->getId() . '"><a href="' . htmlspecialchars($bookmarkUrl) . '">' . htmlspecialchars($bookmarkTitle) . '</a> ( <a style="text-decoration: none;" href="#" onclick="deleteLink(' . $bookmark->getId() . '); return false;">&ndash;</a> ) &nbsp; | &nbsp; </span>';
+
+            // Get bookmark key
+            $adminSecretKey = $bookmark->getBookmarkSecretKey();
+
+            $bookmarkUrlParts = parse_url($bookmarkUrl);
+            $bookmarkUrlWithKey = rtrim($bookmarkUrlParts['path'], '/') . '/key/' . $adminSecretKey;
+            if ((isset($bookmarkUrlParts['query'])) && ($bookmarkUrlParts['query'] != '')) {
+                $bookmarkUrlWithKey .= '?' . $bookmarkUrlParts['query'];
+            }
+
+            $result['bookmark_html'] = '<span id="bookmark' . $bookmark->getId() . '"><a href="' . htmlspecialchars($bookmarkUrlWithKey) . '">' . htmlspecialchars($bookmarkTitle) . '</a> ( <a style="text-decoration: none;" href="#" onclick="deleteLink(' . $bookmark->getId() . '); return false;">&ndash;</a> ) &nbsp; | &nbsp; </span>';
         }
 
         $result['message'] = 'Your bookmark has been added.';

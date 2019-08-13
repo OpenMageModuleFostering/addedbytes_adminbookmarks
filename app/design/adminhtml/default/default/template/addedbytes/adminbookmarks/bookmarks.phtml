@@ -1,0 +1,141 @@
+<?php
+
+    // Check extension is enabled
+    $isEnabled = Mage::getStoreConfig('adminbookmarks/adminbookmarks_options/adminbookmarks_active');
+    if ($isEnabled != 1) {
+        return;
+    }
+
+    // Get current bookmarks
+    $_collection = $this->getBookmarkCollection();
+    $_total = count($_collection);
+
+    // Current page params
+    $_currentUrl = Mage::helper('core/url')->getCurrentUrl();
+    $_helper = $this->helper('addedbytesadminbookmarks');
+    $_recommendedTitle = $_helper->getRecommendedTitle();
+
+    $showConfirmations = Mage::getStoreConfig('adminbookmarks/adminbookmarks_preferences/adminbookmarks_confirmations');
+    $showCredits = Mage::getStoreConfig('adminbookmarks/adminbookmarks_preferences/adminbookmarks_credits');
+
+?><div id="adminbookmarks">
+    <div id="adminbookmarks_wrapper">
+        Quick Links: &nbsp;
+        <?php
+        if ($_collection->getSize() > 0) {
+            foreach ($_collection as $bookmarkItem):
+                $bookmarkName = $bookmarkItem->getBookmarkName();
+
+                // Get bookmark key
+                $adminSecretKey = $bookmarkItem->getBookmarkSecretKey();
+
+                $bookmarkUrl = $bookmarkItem->getBookmarkUrl();
+                $bookmarkUrlParts = parse_url($bookmarkUrl);
+                $bookmarkUrlWithKey = rtrim($bookmarkUrlParts['path'], '/') . '/key/' . $adminSecretKey;
+                if ((isset($bookmarkUrlParts['query'])) && ($bookmarkUrlParts['query'] != '')) {
+                    $bookmarkUrlWithKey .= '?' . $bookmarkUrlParts['query'];
+                }
+            ?>
+            <span id="bookmark<?php echo $bookmarkItem->getId(); ?>"><a href="<?php echo htmlspecialchars($bookmarkUrlWithKey); ?>"><?php echo htmlspecialchars($bookmarkName); ?></a> ( <a style="text-decoration: none;" href="#" onclick="deleteLink(<?php echo $bookmarkItem->getId(); ?>); return false;">&ndash;</a> ) &nbsp; | &nbsp; </span>
+            <?php endforeach ?>
+        <?php } else { ?>
+            <span id="introBookmarks">No bookmarks found for this user. Click <a href="#" onclick="addNewLink(); return false;">Add This Page</a> to save any admin page to this bar.</span>
+        <?php } ?>
+        <span id="newBookmarks"></span>
+        <a href="#" onclick="addNewLink(); return false;">Add This Page</a>
+        <?php if ($showCredits == 1) { ?>
+            <div id="adminbookmarks_credits">Extension by <a href="http://www.addedbytes.com">Added Bytes</a></div>
+        <?php } ?>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+var itemId = 0;
+
+function addNewLink() {
+
+    if (typeof tree != 'undefined') {
+        itemId = tree.currentNodeId;
+    } else {
+        itemId = 0;
+    }
+
+    // Get best title to use as default link text
+    var recommendedTitle = '<?php echo addslashes($_recommendedTitle); ?>';
+    // We grabbed the recommended title from Magento directly. Now we search the
+    // page for better titles.
+    var pageSubTitles = $$('#content .content-header h3');
+    if (pageSubTitles.length > 0) {
+        recommendedTitle = pageSubTitles[0].innerHTML;
+    } else {
+        // Try a wider search (catches listing page titles)
+        pageSubTitles = $$('.content-header h3');
+        if (pageSubTitles.length > 0) {
+            recommendedTitle = pageSubTitles[0].innerHTML;
+        }
+    }
+    // Prompt user for their own link text
+    var itemTitle = prompt('What text would you like to use for this quick bookmark?', recommendedTitle);
+
+    // Send new bookmark to server
+    new Ajax.Request("<?php echo $this->getUrl('adminhtml/adminbookmark/addLink') ?>", {
+        method: 'Post',
+        parameters: {
+            'title' : itemTitle,
+            'item_id' : itemId,
+            'controller' : '<?php echo $this->getRequest()->getControllerName(); ?>',
+            'action' : '<?php echo $this->getRequest()->getActionName(); ?>',
+            'url' : '<?php echo addslashes($_currentUrl); ?>'
+        },
+        onComplete: function(transport) {
+            handleResponse(transport.responseText);
+        }
+    });
+}
+
+function deleteLink(thisLinkId) {
+
+    <?php if ($showConfirmations == 1) { ?>
+        var confirmed = confirm('Are you sure you want to delete this bookmark?');
+        if (!confirmed) {
+            return false;
+        }
+    <?php } ?>
+
+    new Ajax.Request("<?php echo $this->getUrl('adminhtml/adminbookmark/delete') ?>", {
+        method: 'Post',
+        parameters: {
+            'bookmark_id' : thisLinkId
+        },
+        onComplete: function(transport) {
+            $('bookmark' + thisLinkId).hide();
+            handleResponse(transport.responseText);
+        }
+    });
+}
+
+function handleResponse(reponseText) {
+    result = JSON.parse(reponseText);
+    <?php if ($showConfirmations == 1) { ?>
+        alert(result.message);
+    <?php } ?>
+    // Add new bookmark to bar
+    if (typeof result.bookmark_html != 'undefined') {
+        $('newBookmarks').insert(result.bookmark_html);
+        if ($('introBookmarks')) {
+            $('introBookmarks').hide();
+        }
+    }
+}
+
+</script>
+
+<style type="text/css">
+/* This is added here to ensure that if the extension is disabled through
+ * config, the header isn't left floating near the top of the page.
+ */
+.content-header-floating, .header {
+    margin-top: 30px;
+}
+</style>
