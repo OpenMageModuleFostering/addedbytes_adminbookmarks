@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+    Layout for Added Bytes Admin Bookmarks Module
+-->
+<layout>
+    <default>
+        <reference name="content">
+            <block type="addedbytesadminbookmarks/block" name="addedbytes.adminbookmarks" template="addedbytes/adminbookmarks/bookmarks.phtml" />
+        </reference>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>adminbookmarks/css/adminbookmarks.css</name>
+                <params/>
+            </action>
+        </reference>
+    </default>
+</layout>

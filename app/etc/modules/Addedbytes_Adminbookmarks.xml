@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * This module provides a shortcut toolbar at the top of the Magento admin
+ * pages, with user-definable links to anything in the admin area.
+ *
+ * By Added Bytes
+ * http://www.addedbytes.com
+ */
+-->
+<config>
+    <modules>
+        <Addedbytes_Adminbookmarks>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Addedbytes_Adminbookmarks>
+    </modules>
+</config>

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<package>
+    <name>Addedbytes_Adminbookmarks</name>
+    <version>0.1.0</version>
+    <stability>stable</stability>
+    <license uri="http://opensource.org/licenses/osl-3.0.php">Open Software License</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>Adds a handy quick-links bar to the top of the Magento admin panel to allow fast navigation.</summary>
+    <description>    &lt;p&gt;Navigating around the Magento admin panel can be a little slow. Especially if you need to keep returning to the same product, customer or order over and over again. This extension is built to solve that problem!&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;With Admin Bookmarks, you have a convenient bar at the top of the admin panel where you can instantly save any admin URL, including customer, order, product or category pages. If you need to get back to the same page quickly, the link is right there - no grids to fight through! And removing quick links is just as easy when you don't need them any more.&lt;/p&gt;&#xD;
+&#xD;
+    &lt;h3&gt;How Do I Use It?&lt;/h3&gt;&#xD;
+&#xD;
+    &lt;p&gt;To install the extension:&lt;/p&gt;&#xD;
+&#xD;
+    &lt;ul&gt;&#xD;
+        &lt;li&gt;Download the zip, and extract the contents&lt;/li&gt;&#xD;
+        &lt;li&gt;Upload the contents of the httpdocs folder to your website root folder&lt;/li&gt;&#xD;
+        &lt;li&gt;Clear Magento caches&lt;/li&gt;&#xD;
+        &lt;li&gt;Log out and log back in again&lt;/li&gt;&#xD;
+        &lt;li&gt;Go to System &amp;gt; Configuration &amp;gt; Added Bytes &amp;gt; Admin Bookmarks and enable the extension.&lt;/li&gt;&#xD;
+    &lt;/ul&gt;&#xD;
+&#xD;
+    &lt;h3&gt;How Do I Get Support?&lt;/h3&gt;&#xD;
+&#xD;
+    &lt;p&gt;For technical or sales enquiries, please &lt;a href="mailto:support+adminbookmarks@addedbytes.com"&gt;email our support team&lt;/a&gt;. We can also customise this, and our other, extensions as you need; please check out our &lt;a href="http://www.addedbytes.com"&gt;magento development services&lt;/a&gt; for more information.&lt;/p&gt;</description>
+    <notes>This release includes the base functionality. It allows you to quickly save any admin URL to a convenient bar at the top of the admin panel.</notes>
+    <authors><author><name>AddedBytes</name><user>AddedBytes</user><email>dave@addedbytes.com</email></author></authors>
+    <date>2015-09-03</date>
+    <time>15:31:14</time>
+    <contents><target name="magelocal"><dir name="Addedbytes"><dir name="Adminbookmarks"><dir name="Block"><file name="Block.php" hash="a53d92f631890faf67630cf3ac35ca5c"/></dir><dir name="Helper"><file name="Data.php" hash="5768b596cbc7f2a34538407eecd97c4a"/></dir><dir name="Model"><file name="Bookmark.php" hash="d1383b4120746888cdc99dd1fcdb818e"/><dir name="Resource"><dir name="Bookmark"><file name="Collection.php" hash="7ddcfad72ae5560167bec537074583cd"/></dir><file name="Bookmark.php" hash="476fd9f0a87d0e55652c8f767ba68774"/></dir></dir><dir name="controllers"><dir name="Adminhtml"><file name="AdminbookmarkController.php" hash="88e72fd8d9bee850f6ca4cf63fcf5196"/></dir></dir><dir name="etc"><file name="config.xml" hash="b77ad39d373cba0e790a3ca056302c63"/><file name="system.xml" hash="591b421d5a201e6a2a9e691fc308c3d1"/></dir><dir name="sql"><dir name="adminbookmarks_setup"><file name="mysql4-install-0.1.0.php" hash="1cb6cd3bf50a1dd7d3c64b2b393ee86d"/></dir></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Addedbytes_Adminbookmarks.xml" hash="c2577ab6bd8983f8cd9dd7c3ce162fcf"/></dir></target><target name="magedesign"><dir name="adminhtml"><dir name="default"><dir name="default"><dir name="template"><dir name="addedbytes"><file name="adminbookmarks" hash="d41d8cd98f00b204e9800998ecf8427e"/></dir></dir><dir name="layout"><file name="addedbytes_adminbookmarks.xml" hash="67afb68b9b7a9a6cfca31616effeadd2"/></dir></dir></dir></dir></target><target name="mageskin"><dir name="adminhtml"><dir name="default"><dir name="default"><file name="adminbookmarks" hash="d41d8cd98f00b204e9800998ecf8427e"/></dir></dir></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.3.0</min><max>6.0.0</max></php></required></dependencies>
+</package>
