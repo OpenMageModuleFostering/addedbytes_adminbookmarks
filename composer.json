@@ -1,16 +1,19 @@
 {
-    "name": "OpenMageModuleFostering/Addedbytes_Adminbookmarks",
+    "name": "OpenMageModuleFostering\/Addedbytes_Adminbookmarks",
     "type": "magento-module",
     "license": "Open-Software-License",
     "homepage": "",
     "description": "Adds a handy quick-links bar to the top of the Magento admin panel to allow fast navigation.",
     "authors": [
-    {
-        "name": "AddedBytes",
-        "email": "dave@addedbytes.com"
-    }
-],
+        {
+            "name": "AddedBytes",
+            "email": "dave@addedbytes.com"
+        }
+    ],
     "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+        "magento-hackathon\/magento-composer-installer": "*"
+    },
+    "keywords": [
+        "openmage-module"
+    ]
 }
